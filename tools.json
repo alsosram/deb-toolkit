@@ -1,0 +1,17 @@
+[
+  {
+    "name": "deb-auto",
+    "desc": "Debian setup (sudo, curl, cockpit, SSH)",
+    "url": "deb-auto/main/install.sh"
+  },
+  {
+    "name": "deb-bootopti",
+    "desc": "Boot speed optimizer (trim initramfs, GRUB, services)",
+    "url": "deb-bootopti/master/bootopti.sh"
+  },
+  {
+    "name": "deb-autorr",
+    "desc": "Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin)",
+    "url": "deb-autorr/main/install.sh"
+  }
+]

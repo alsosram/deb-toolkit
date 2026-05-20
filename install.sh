@@ -7,11 +7,7 @@ warn() { echo -e "${YELLOW}[!]${NC} $1"; }
 info() { echo -e "${CYAN}[*]${NC} $1"; }
 err()  { echo -e "${RED}[-]${NC} $1"; }
 
-TOOLS=(
-    "deb-auto:Debian setup (sudo, curl, cockpit, SSH):deb-auto/main/install.sh"
-    "deb-bootopti:Boot speed optimizer (trim initramfs, GRUB, services):deb-bootopti/master/bootopti.sh"
-    "deb-autorr:Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin):deb-autorr/main/install.sh"
-)
+MANIFEST_URL="https://raw.githubusercontent.com/alsosram/deb-toolkit/master/tools.json"
 
 usage() {
     cat <<EOF
@@ -26,10 +22,28 @@ EOF
 }
 
 [[ $# -ge 1 && "$1" == "--help" ]] && usage
+
+# Fetch toolbox manifest
+TOOLS=()
+while IFS='|' read -r name desc url; do
+    TOOLS+=("$name|$desc|$url")
+done < <(curl -fsSL "$MANIFEST_URL" 2>/dev/null | python3 -c "
+import sys, json
+for t in json.load(sys.stdin):
+    print(t['name'] + '|' + t['desc'] + '|' + t['url'])
+" 2>/dev/null)
+
+if [[ ${#TOOLS[@]} -eq 0 ]]; then
+    err "Failed to fetch toolbox manifest."
+    err "Try again or manually run a tool:"
+    echo "  curl -fsSL https://raw.githubusercontent.com/alsosram/deb-auto/main/install.sh | bash"
+    exit 1
+fi
+
 [[ $# -ge 1 && "$1" == "--list" ]] && {
     info "Available tools:"
     for i in "${!TOOLS[@]}"; do
-        IFS=':' read -r name desc _ <<< "${TOOLS[$i]}"
+        IFS='|' read -r name desc _ <<< "${TOOLS[$i]}"
         echo "  $((i+1))) $name — $desc"
     done
     exit 0
@@ -50,7 +64,7 @@ show_menu() {
     info "Select a tool to run:"
     echo ""
     for i in "${!TOOLS[@]}"; do
-        IFS=':' read -r name desc _ <<< "${TOOLS[$i]}"
+        IFS='|' read -r name desc _ <<< "${TOOLS[$i]}"
         printf "  ${GREEN}[%d]${NC} ${BOLD}%-15s${NC} %s\n" $((i+1)) "$name" "$desc"
     done
     echo ""
@@ -60,7 +74,7 @@ show_menu() {
 
 run_tool() {
     local idx=$1
-    IFS=':' read -r name desc url <<< "${TOOLS[$idx]}"
+    IFS='|' read -r name desc url <<< "${TOOLS[$idx]}"
     local full_url="https://raw.githubusercontent.com/alsosram/$url"
 
     echo ""

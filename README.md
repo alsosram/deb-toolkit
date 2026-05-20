@@ -9,14 +9,6 @@ su -
 bash <(curl -fsSL https://raw.githubusercontent.com/alsosram/deb-toolkit/master/install.sh)
 ```
 
-## Tools Included
-
-| # | Tool | Description |
-|---|------|-------------|
-| 1 | **deb-auto** | Debian setup (sudo, curl, cockpit, SSH) |
-| 2 | **deb-bootopti** | Boot speed optimizer (trim initramfs, GRUB, services) |
-| 3 | **deb-autorr** | Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin) |
-
 ## Options
 
 ```bash
@@ -29,3 +21,17 @@ bash install.sh 2
 # Interactive menu (default)
 bash install.sh
 ```
+
+## Adding a New Tool
+
+The toolbox is defined by [`tools.json`](tools.json). To add a new tool, edit that file:
+
+```json
+{
+  "name": "my-tool",
+  "desc": "What it does",
+  "url": "my-tool/main/install.sh"
+}
+```
+
+The `url` is relative to `https://raw.githubusercontent.com/alsosram/`. That's it — `install.sh` reads the manifest dynamically, no script changes needed.
