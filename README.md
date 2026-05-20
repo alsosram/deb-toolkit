@@ -6,7 +6,7 @@ Master launcher for all Debian tools — browse descriptions and run interactive
 
 ```bash
 su -
-bash <(curl -fsSL https://raw.githubusercontent.com/alsosram/deb-toolkit/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/alsosram/deb-toolkit/master/install.sh)
 ```
 
 ## Tools Included
@@ -15,8 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/alsosram/deb-toolkit/main/in
 |---|------|-------------|
 | 1 | **deb-auto** | Debian setup (sudo, curl, cockpit, SSH) |
 | 2 | **deb-bootopti** | Boot speed optimizer (trim initramfs, GRUB, services) |
-| 3 | **deb-brew** | Generate preseed.cfg for unattended Debian install |
-| 4 | **deb-autorr** | Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin) |
+| 3 | **deb-autorr** | Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin) |
 
 ## Options
 

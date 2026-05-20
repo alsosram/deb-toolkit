@@ -10,7 +10,6 @@ err()  { echo -e "${RED}[-]${NC} $1"; }
 TOOLS=(
     "deb-auto:Debian setup (sudo, curl, cockpit, SSH):deb-auto/main/install.sh"
     "deb-bootopti:Boot speed optimizer (trim initramfs, GRUB, services):deb-bootopti/master/bootopti.sh"
-    "deb-brew:Generate preseed.cfg for unattended Debian install:deb-brew/main/debian-preseed-wizard.ps1"
     "deb-autorr:Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin):deb-autorr/main/install.sh"
 )
 
@@ -71,14 +70,6 @@ run_tool() {
     warn "This tool will be downloaded from GitHub and executed."
     warn "Inspect it first: $full_url"
     echo ""
-
-    if [[ "$name" == "deb-brew" ]]; then
-        log "This is a PowerShell tool. Run on Windows or install pwsh on Linux."
-        echo "  curl -fsSL $full_url -o preseed-wizard.ps1"
-        echo "  pwsh ./preseed-wizard.ps1"
-        echo ""
-        return
-    fi
 
     read -rp "  Download and run now? [Y/n]: " ans
     if [[ "$ans" != "n" && "$ans" != "N" ]]; then
