@@ -15,6 +15,11 @@
     "url": "deb-autorr/main/install.sh"
   },
   {
+    "name": "claim-plex",
+    "desc": "Claim an already-installed Plex server",
+    "url": "deb-autorr/main/claim-plex.sh"
+  },
+  {
     "name": "deb-crafty",
     "desc": "Minecraft Server (Crafty Controller) — web-based server manager",
     "url": "deb-crafty/main/install.sh"
