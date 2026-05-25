@@ -13,11 +13,10 @@ bash <(curl -fsSL https://raw.githubusercontent.com/alsosram/deb-toolkit/master/
 
 | # | Tool | Description |
 |---|------|-------------|
-| 1 | deb-auto | Debian setup (sudo, curl, cockpit, SSH) |
+| 1 | deb-auto     | Debian setup (sudo, curl, cockpit, SSH) |
 | 2 | deb-bootopti | Boot speed optimizer (trim initramfs, GRUB, services) |
-| 3 | deb-autorr | Movie automation stack (Radarr, Prowlarr, qBittorrent, Plex/Jellyfin) |
-| 4 | claim-plex | Claim an already-installed Plex server |
-| 5 | deb-crafty | Minecraft Server (Crafty Controller) — web-based server manager |
+| 3 | deb-autorr   | Full auto rr stack — install, OMV layout, claim, purge, fix perms |
+| 4 | deb-crafty   | Minecraft Server (Crafty Controller) — web-based server manager |
 
 ## Options
 
