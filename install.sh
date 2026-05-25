@@ -49,29 +49,6 @@ fi
     exit 0
 }
 
-show_banner() {
-    clear
-    echo -e "${GREEN}"
-    echo '  ╔══════════════════════════════════════╗'
-    echo '  ║         Debian Tool Kit              ║'
-    echo '  ║     Interactive Tool Launcher        ║'
-    echo '  ╚══════════════════════════════════════╝'
-    echo -e "${NC}"
-}
-
-show_menu() {
-    echo ""
-    info "Select a tool to run:"
-    echo ""
-    for i in "${!TOOLS[@]}"; do
-        IFS='|' read -r name desc _ <<< "${TOOLS[$i]}"
-        printf "  ${GREEN}[%d]${NC} ${BOLD}%-15s${NC} %s\n" $((i+1)) "$name" "$desc"
-    done
-    echo ""
-    printf "  ${CYAN}[Q]${NC} Quit${NC}\n"
-    echo ""
-}
-
 run_tool() {
     local idx=$1
     IFS='|' read -r name desc url <<< "${TOOLS[$idx]}"
@@ -95,8 +72,6 @@ run_tool() {
 }
 
 # --- Main ---
-show_banner
-
 if [[ $# -ge 1 ]]; then
     if [[ "$1" =~ ^[0-9]+$ ]]; then
         idx=$(( $1 - 1 ))
@@ -109,24 +84,31 @@ if [[ $# -ge 1 ]]; then
     usage
 fi
 
+if ! command -v whiptail &>/dev/null; then
+    echo "[!] whiptail is required. Install: apt-get install whiptail" >&2
+    exit 1
+fi
+
 while true; do
-    show_menu
-    read -rp "  Enter choice [1-${#TOOLS[@]}]: " choice
-    case "$choice" in
-        [Qq]) log "Goodbye."; exit 0 ;;
-        * )
-            if [[ "$choice" =~ ^[0-9]+$ ]]; then
-                idx=$(( choice - 1 ))
-                if [[ $idx -ge 0 && $idx -lt ${#TOOLS[@]} ]]; then
-                    run_tool $idx
-                else
-                    err "Invalid number."
-                fi
-            else
-                err "Invalid input."
-            fi
-            ;;
-    esac
-    echo ""
-    read -rp "  Press Enter to continue..."
+    menu_args=()
+    menu_args+=("--menu" "Select a tool to run:" "18" "70" "${#TOOLS[@]}")
+    for i in "${!TOOLS[@]}"; do
+        IFS='|' read -r name desc _ <<< "${TOOLS[$i]}"
+        menu_args+=("$((i+1))" "${name} — ${desc}")
+    done
+    menu_args+=("Q" "Quit")
+
+    choice=$(whiptail "${menu_args[@]}" 3>&1 1>&2 2>&3) || {
+        log "Goodbye."
+        exit 0
+    }
+    if [[ "$choice" == "Q" ]]; then
+        log "Goodbye."
+        exit 0
+    fi
+    idx=$(( choice - 1 ))
+    run_tool $idx
+    if [[ -t 0 ]]; then
+        read -rp "  Press Enter to continue..."
+    fi
 done
