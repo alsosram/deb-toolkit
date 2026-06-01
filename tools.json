@@ -11,13 +11,18 @@
   },
   {
     "name": "deb-crafty",
-    "desc": "Minecraft Server (Crafty Controller) — web-based server manager",
+    "desc": "Minecraft Server (Crafty Controller) - web-based server manager",
     "url": "deb-crafty/main/install.sh"
   },
   {
     "name": "deb-sleepwithme",
     "desc": "Scheduled server shutdown by day and time",
     "url": "deb-sleepwithme/main/install.sh"
+  },
+  {
+    "name": "deb-wakewithme",
+    "desc": "Wake-on-LAN scheduler - send WOL packets by schedule or on demand",
+    "url": "deb-wakewithme/main/install.sh"
   },
   {
     "name": "deb-manuser",
